@@ -1,12 +1,29 @@
-
-
 import { useState } from 'react'
 import './App.css'
 
+// 配列をシャッフルする関数（Fisher-Yates shuffle）
+function shuffle(array: Array<string>) {
+  // 配列の末尾から先頭に向かって要素を入れ替える
+  for (let i = array.length - 1; i > 0; i--) {
+    // 0からiまでのランダムなインデックスを生成する
+    const j = Math.floor(Math.random() * (i + 1));
+    // i番目とj番目の要素を入れ替える
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  // シャッフルされた配列を返す
+  return array;
+}
+
+// データの配列
+const data = ["A-1", "A-2", "A-3", "B-1", "B-2"];
+
+// 配列をシャッフルする
+const shuffledData = shuffle(data);
+
 function App() {
   // 配列１と配列２の状態を定義
-  const [array1, setArray1] = useState([1, 2, 3]);
-  const [array2, setArray2] = useState([4, 5, 6]);
+  const [array1, setArray1] = useState<Array<string>>(shuffledData);
+  const [array2, setArray2] = useState<Array<string | undefined>>([]);
 
   // 配列１から要素を削除し、配列２に追加する関数
   const moveElement = () => {
@@ -25,10 +42,11 @@ function App() {
     <div className="App">
       <h1>Reactで配列の要素を移動させる</h1>
       <button onClick={moveElement}>移動</button>
-      <p>配列１：{JSON.stringify(array1)}</p>
+      <p>値: {array2[array2.length - 1]}</p>
+      {/* <p>配列１：{JSON.stringify(array1)}</p> */}
       <p>配列２：{JSON.stringify(array2)}</p>
     </div>
-  );
+  )
 }
 
 export default App
